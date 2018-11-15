@@ -51,22 +51,26 @@ defmodule PublicSuffix.RulesParser do
     %{
       exception_rules: exception_rules,
       exact_match_rules: exact_match_rules,
-      wild_card_rules: wild_card_rules,
+      wild_card_rules: wild_card_rules
     }
   end
 
   @doc false
   def punycode_domain(rule) do
     rule
-    |> :unicode.characters_to_list
-    |> :idna.to_ascii
+    |> :unicode.characters_to_list()
+    |> idna_call()
     |> to_string
   end
+
+  def idna_call('!' ++ char_list), do: '!' ++ idna_call(char_list)
+  def idna_call('*.' ++ char_list), do: '*.' ++ idna_call(char_list)
+  def idna_call(char_list), do: :idna.to_ascii(:unicode.characters_to_nfc_list(char_list))
 
   defp to_domain_label_map(rules, type) do
     rules
     # "A domain or rule can be split into a list of labels using the separator "." (dot)."
     |> Stream.map(&{String.split(&1, "."), type})
-    |> Map.new
+    |> Map.new()
   end
 end
