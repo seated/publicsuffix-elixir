@@ -19,17 +19,17 @@ defmodule PublicSuffix.Mixfile do
       # only used at compile time, as part of processing the publicsuffix.org
       # rules file. So it is not needed at runtime.
       applications: [
-        :logger,
+        :logger
       ]
     ]
   end
 
   defp deps do
     [
-      {:idna, ">= 1.2.0 and < 6.0.0"},
+      {:idna, ">= 1.2.0"},
       # ex_doc and earmark are necessary to publish docs to hexdocs.pm.
       {:ex_doc, ">= 0.0.0", only: :dev},
-      {:earmark, ">= 0.0.0", only: :dev},
+      {:earmark, ">= 0.0.0", only: :dev}
     ]
   end
 
